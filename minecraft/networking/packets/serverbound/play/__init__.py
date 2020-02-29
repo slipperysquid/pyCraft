@@ -22,6 +22,7 @@ def get_packets(context):
         ClientSettingsPacket,
         PluginMessagePacket,
         PlayerBlockPlacementPacket,
+        PlayerPositionPacket,
     }
     if context.protocol_version >= 69:
         packets |= {
@@ -74,6 +75,18 @@ class ChatPacket(Packet):
     definition = [
         {'message': String}]
 
+class PlayerPositionPacket(Packet):
+    @staticmethod
+    def get_id(context):
+        return 0x11 
+        #if context.protocol_version >= 578 else -1
+    
+    packet_name = "player position"
+    get_definition = staticmethod(lambda context: [
+        {'x': Double},
+        {'feet_y': Double},
+        {'z': Double},
+        {'on_ground': Boolean}])
 
 class PositionAndLookPacket(Packet):
     @staticmethod
@@ -98,6 +111,7 @@ class PositionAndLookPacket(Packet):
         {'yaw': Float},
         {'pitch': Float},
         {'on_ground': Boolean}]
+
 
     # Access the 'x', 'feet_y', 'z' fields as a Vector tuple.
     position = multi_attribute_alias(Vector, 'x', 'feet_y', 'z')
