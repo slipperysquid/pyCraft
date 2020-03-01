@@ -62,6 +62,10 @@ def get_options():
 
 class Player():
     def __init__(self, x, y, z, connection):
+        self.x_moves = None
+        self.x_remainder = None
+        self.y_moves = None
+        self.z_moves = None
         self.x_pos = x
         self.y_pos = y
         self.z_pos = z
@@ -86,6 +90,7 @@ class Player():
 
         
     def send_packet_loop(self):
+
         while True:
             initial_time = time.time()
 
@@ -101,7 +106,7 @@ class Player():
 
     def get_pos(self, position_packet):
         self.setCoords(position_packet.x, position_packet.y, position_packet.z)
-    
+        
     def handle_join_game(self, join_game_packet):
         print('Connected.')
         self.is_game_started = True
